@@ -5,32 +5,55 @@ class App extends React.Component {
 
 	constructor(){
 		super();
-		this.state = { val:0 };
+		this.state = { increasing: false };
 		this.update = this.update.bind(this);
 	}
+
 	update(){
-		this.setState({val: this.state.val+1});
+		console.info('update', this.props.val);
+		ReactDOM.render(
+			<App val={this.props.val+1} />,
+			document.getElementById('app')
+		);
 	}
+
+	componentWillReceiveProps(nextProps){
+		console.info('componentWillReceiveProps', 'nextProps', nextProps);
+		this.setState({increasing: nextProps.val > this.props.val});
+	}
+
+	shouldComponentUpdate(nextProps, nextState){
+		console.info('shouldComponentUpdate','nextProps','nextState',nextProps, nextState);
+		return nextProps.val % 5 == 0;
+	}
+
+	componentDidUpdate(prevProps, prevState){
+		console.info('componentDidUpdate', 'prevProps', 'prevState', prevProps, prevState)
+
+	}
+
 	componentWillMount(){
 		console.info('componentWillMount');
-		this.setState({m:2});
 	}
+
 	render(){
 		console.info('render');
 		return (
 			<button onClick={this.update}>
-				{this.state.val * this.state.m}
+				{this.props.val}
 			</button>
 		)
 	}
+
 	componentDidMount(){
 		console.info('componentDidMount', ReactDOM.findDOMNode(this));
-		this.inc  = setInterval(this.update, 500);
 	}
+
 	componentWillUnmount(){
-		console.info('bye!');
-		clearInterval(this.inc);
+		console.info('componentWillUnmount');
 	}
 }
+
+App.defaultProps = {val:0}
 
 export default App
