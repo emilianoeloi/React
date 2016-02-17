@@ -24,10 +24,12 @@ class App extends React.Component {
 		)
 	}
 	componentDidMount(){
-		console.info('componentDidMount');
+		console.info('componentDidMount', ReactDOM.findDOMNode(this));
+		this.inc  = setInterval(this.update, 500);
 	}
 	componentWillUnmount(){
 		console.info('bye!');
+		clearInterval(this.inc);
 	}
 }
 
