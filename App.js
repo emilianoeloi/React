@@ -20,6 +20,7 @@ class App extends React.Component {
 		})
 	}
 	componentWillMount(){
+		console.info('mounting')
 		this.setState({
 			m:2
 		})
@@ -42,16 +43,15 @@ class App extends React.Component {
 		);
 	}
 	componentDidMount(){
-		console.info(ReactDOM.findDOMNode(this));
+		console.info('mounted', ReactDOM.findDOMNode(this));
 	}
 	componentWillUnmount(){
-		console.info('buy');
+		console.info('bye');
 	}
 }
 
 App.propTypes = {
-	txt: React.PropTypes.string,
-	cat: React.PropTypes.number.isRequired
+	txt: React.PropTypes.string
 }
 
 App.defaultProps = {
@@ -89,6 +89,27 @@ class Btn2 extends React.Component {
 
 const Heart = () => <span className="glyphicon glyphicon-heart"></span>
 
+class Wrapper extends React.Component {
+	constructor(){
+		super()
+	}
+	mount(){
+		ReactDOM.render(<App />, document.getElementById('a'))
+	}
+	unmount(){
+		ReactDOM.unmountComponentAtNode(document.getElementById('a'))
+	}
+	render(){
+		return (
+			<div>
+				<button onClick={this.mount.bind(this)}>Mount</button>
+				<button onClick={this.unmount.bind(this)}>Unmount</button>
+				<div id="a"></div>			
+			</div>
+		)
+	}
+}
+
 // const App = () => <h1>Vai Sávio</h1>
 
-export default App
+export default Wrapper
