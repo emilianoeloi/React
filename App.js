@@ -4,34 +4,42 @@ class App extends React.Component {
 
 	constructor(){
 		super();
-		this.state = {data:[
-			{id:0, name:"Cainã Nuñes"},
-			{id:1, name:"Moises Ribeiro"},
-			{id:2, name:"Alexandre Magno"},
-			{id:3, name:"Cezar Liedke"},
-			{id:4, name:"Guilherme Bruzzi"},
-			{id:5, name:"Emiliano Barbosa"},
-			{id:6, name:"Bayron Quinelato"}
-		]}
+		this.state = {
+			input: '/* add your jsx here */',
+			output: '',
+			err: ''
+		}
+		this.update = this.update.bind(this);
+	}
+
+	update(e){
+		let code = e.target.value;
+		try{
+			this.setState({
+				output: babel.transform(code, {
+					stage: 0,
+					loose: 'all'
+				}).code
+			})
+		}catch(err){
+			this.setState({err: err.message});
+		}
 	}
 
 	render(){
-
-		let rows = this.state.data.map( person => {
-			return <PersonRow data={person} key={person.id} />
-		})
-
-		return <table>
-		<tbody>{rows}</tbody>
-		</table>
+		return (
+			<div>
+				<header>
+					{this.state.err}
+				</header>
+				<div className="container">
+					<textarea onChange={this.update}
+					defaultValue={this.state.input}></textarea>
+					<pre>{this.state.output}</pre>
+				</div>
+			</div>
+		)
 	}
-}
-
-const PersonRow = (props) => {
-	return <tr>
-		<td>{props.data.id}</td>
-		<td>{props.data.name}</td>
-	</tr>
 }
 
 export default App
