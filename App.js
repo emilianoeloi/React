@@ -6,7 +6,8 @@ class App extends React.Component {
 		this.state = {
 			red: 0,
 			green: 0,
-			blue: 0
+			blue: 0,
+			val: 0
 		}
 		this.update = this.update.bind(this);
 	}
@@ -14,10 +15,17 @@ class App extends React.Component {
 		this.setState({
 			red: ReactDOM.findDOMNode(this.refs.red.refs.inp).value,
 			green: ReactDOM.findDOMNode(this.refs.green.refs.inp).value,
-			blue: ReactDOM.findDOMNode(this.refs.blue.refs.inp).value
+			blue: ReactDOM.findDOMNode(this.refs.blue.refs.inp).value,
+			val: this.state.val +1
+		})
+	}
+	componentWillMount(){
+		this.setState({
+			m:2
 		})
 	}
 	render(){
+		console.info('rendering!');
 		return (
 			<div>
 			{this.state.txt}
@@ -28,8 +36,16 @@ class App extends React.Component {
 				{this.state.green}
 				<Slider ref="blue" update={this.update} />
 				{this.state.blue}
+				<Btn m={this.state.m} val={this.state.val} update={this.update} />
+				<Btn2>I<Heart /> React</Btn2>
 			</div>
 		);
+	}
+	componentDidMount(){
+		console.info(ReactDOM.findDOMNode(this));
+	}
+	componentWillUnmount(){
+		console.info('buy');
 	}
 }
 
@@ -56,6 +72,22 @@ const Widget = (props) => {
 			<input type="text" onChange={props.update} />
 			</div>)
 }
+
+const Btn = (props) => {
+	return(
+		<button onClick={props.update}>
+			{props.val * props.m}
+		</button>
+	)
+}
+
+class Btn2 extends React.Component {
+	render(){
+		return <button>{this.props.children}</button>
+	}
+}
+
+const Heart = () => <span className="glyphicon glyphicon-heart"></span>
 
 // const App = () => <h1>Vai Sávio</h1>
 
