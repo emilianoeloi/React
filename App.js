@@ -3,9 +3,9 @@ class App extends React.Component {
 	constructor(){
 		super()
 		this.state = {
-			txt: 'this is a the state txt',
-			cat: 0
+			txt: 'this is a the state txt'
 		}
+		this.update = this.update.bind(this);
 	}
 	update(e){
 		this.setState({
@@ -13,14 +13,15 @@ class App extends React.Component {
 		})
 	}
 	render(){
-		let txt = this.props.txt
-		return (<div>
-			<h1>Vai Sabrina!</h1>
-			<h2>Ai Sávio</h2>
-			<h3>{txt}</h3>
-			<h4>{this.state.txt}</h4>
-			<input type="text" onChange={this.update.bind(this)} />
-			</div>)
+		return (
+			<div>
+				<Widget txt={this.state.txt} update={this.update}/>
+				<Widget txt={this.state.txt} update={this.update}/>
+				<Widget txt={this.state.txt} update={this.update}/>
+				<Widget txt={this.state.txt} update={this.update}/>
+				<Widget txt={this.state.txt} update={this.update}/>
+			</div>
+		);
 	}
 }
 
@@ -31,6 +32,15 @@ App.propTypes = {
 
 App.defaultProps = {
 	txt: 'this is the default txt'
+}
+
+const Widget = (props) => {
+	return (<div>
+			<h1>Vai Sabrina!</h1>
+			<h3>Ai Sávio</h3>
+			<h4>{props.txt}</h4>
+			<input type="text" onChange={props.update} />
+			</div>)
 }
 
 // const App = () => <h1>Vai Sávio</h1>
